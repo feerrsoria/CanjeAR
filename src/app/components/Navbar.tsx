@@ -57,11 +57,13 @@ export default function Navbar() {
                     <div className={styles.iconBtn} title="profile">
                         <SignedOut>
                             <SignInButton>
-                                <button><FaSignInAlt /></button>
+                                <button className={styles.roundButton} aria-label="Sign in">
+                                    <FaSignInAlt className={styles.icon} />
+                                </button>
                             </SignInButton>
                             <SignUpButton>
-                                <button>
-                                    <FaSignOutAlt />
+                                <button className={styles.roundButton} aria-label="Sign up">
+                                    <FaSignOutAlt className={styles.icon} />
                                 </button>
                             </SignUpButton>
                         </SignedOut>

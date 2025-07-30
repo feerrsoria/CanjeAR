@@ -13,6 +13,27 @@
   flex-wrap: wrap;
 }
 
+.roundButton {
+  background-color: #e5e7eb; /* light gray */
+  border-radius: 50%;
+  padding: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.roundButton:hover {
+  background-color: #d1d5db; /* darker gray on hover */
+}
+
+.icon {
+  font-size: 1.25rem; /* adjust size as needed */
+  color: #111827; /* dark gray */
+}
+
 /* Left section: logo + search */
 .navbar > div:first-of-type {
   display: flex;
