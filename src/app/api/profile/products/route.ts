@@ -1,15 +1,29 @@
-// src/app/api/products/route.ts
+// src/app/api/profile/products/route.ts
 
 import { PrismaClient } from '@prisma/client';
 import { NextResponse } from 'next/server'; // Import NextResponse for API responses
 
 const prisma = new PrismaClient();
 
-// Handle GET requests for /api/products
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Handle GET requests for /api/profile/products
 export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const clerkUserId = searchParams.get('clerkUserId');
+
+  if (!clerkUserId) {
+    return NextResponse.json(
+      { message: 'clerkUserId query parameter is required' },
+      { status: 400 }
+    );
+  }
+
   try {
     const products = await prisma.product.findMany({
+      where: {
+        vendor: {
+          clerkUserId: clerkUserId,
+        },
+      },
       include: {
         vendor: true, // Optionally include vendor details
       },

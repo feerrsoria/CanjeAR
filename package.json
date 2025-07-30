@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "npx prisma generate && next build",
+    "build": "prisma migrate deploy && npx prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -21,6 +21,8 @@
     "react-dom": "19.1.0",
     "react-icons": "^5.5.0",
     "react-select": "^5.10.2",
+    "stream-chat": "^9.13.0",
+    "stream-chat-react": "^13.3.0",
     "svix": "^1.69.0"
   },
   "devDependencies": {

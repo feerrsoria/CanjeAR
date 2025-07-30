@@ -13,6 +13,15 @@
   margin-bottom: 2.5rem;
 }
 
+/* Style for loading, error, and empty messages */
+.gridMessage {
+  text-align: center;
+  color: var(--text-muted, #7a7a7a);
+  font-size: 1.2rem;
+  padding: 2rem 0;
+  width: 100%;
+}
+
 .gridContainer {
   display: grid;
   /* Define un mínimo de 280px por columna y auto-ajusta para llenar el espacio */

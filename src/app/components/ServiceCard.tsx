@@ -1,11 +1,11 @@
 'use client';
-// components/AddProductCard/AddProductCard.js
+// components/AddServiceCard/AddServiceCard.js
 import React, { useState } from 'react';
 import Image from 'next/image'; // Make sure you import Image
 
 import styles from './AddProductCard.module.css';
 
-export default function AddProductCard() {
+export default function AddServiceCard() {
     const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
     const handleImageUpload = () => {

@@ -1,24 +1,24 @@
 // prisma/seed.ts
 // Este script poblará la base de datos con datos iniciales de productos, servicios y un proveedor.
 
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { v4 as uuid } from 'uuid';
 
 const prisma = new PrismaClient();
 
-export interface Producto {
+interface Producto {
   id: string;
   name: string;
   price: number;
   images: string[];
-  category: string;
+  category: ProductCategory;
   description: string;
   vendorId: string;
   location: string;
   publishedDate: Date;
 }
 
-export interface Servicio {
+interface Servicio {
   id: string;
   name: string;
   description: string;
@@ -29,9 +29,11 @@ export interface Servicio {
   vendorId: string;
 }
 
-export interface Vendedor {
+interface Vendedor {
   id: string;
   clerkUserId: string;
+  profilePic?: string;
+  email: string;
   name: string;
   lastname: string;
   sales: number;
@@ -42,10 +44,17 @@ export interface Vendedor {
   products: Producto[];
 }
 
+enum ProductCategory {
+  ELECTRONICA="ELECTRONICA",
+  COSAS_DEL_HOGAR="COSAS_DEL_HOGAR",
+  MODA="MODA",
+  VEHICULOS="VEHICULOS",
+  OTROS="OTROS",
+}
 // ---------- Datos semilla ----------
 
 const vendorId = uuid();
-const clerkUserId = "user_30YaOH5QxpUROCxRa1JmLgkHlvU";
+const clerkUserId = "user_30aTvYwWCTdlWoZb7VdTfZZs1Qs";
 
 const now = new Date();
 
@@ -56,7 +65,7 @@ const servicios: Servicio[] = [
     description: "Servicio profesional de peluquería",
     price: 30,
     location: "Centro",
-    images: ["https://source.unsplash.com/400x300/?haircut"],
+    images: ["https://iili.io/FS4t8Tg.jpg"],
     vendorId,
     publishedDate: now,
   },
@@ -66,7 +75,7 @@ const servicios: Servicio[] = [
     description: "Limpieza interior y exterior del vehículo",
     price: 25,
     location: "Zona Industrial",
-    images: ["https://source.unsplash.com/400x300/?car-wash"],
+    images: ["https://iili.io/FS4tMhb.jpg"],
     vendorId,
     publishedDate: now,
   },
@@ -86,7 +95,7 @@ const servicios: Servicio[] = [
     description: "Servicio de limpieza de 2 horas",
     price: 60,
     location: "Zona Residencial",
-    images: ["https://source.unsplash.com/400x300/?cleaning"],
+    images: ["https://iili.io/FS4tGTu.jpg"],
     vendorId,
     publishedDate: now,
   },
@@ -96,7 +105,7 @@ const servicios: Servicio[] = [
     description: "Clase básica de guitarra de 1 hora",
     price: 40,
     location: "Estudio Musical",
-    images: ["https://source.unsplash.com/400x300/?guitar"],
+    images: ["https://iili.io/FS4tev1.jpg"],
     vendorId,
     publishedDate: now,
   },
@@ -106,7 +115,7 @@ const servicios: Servicio[] = [
     description: "Entrenador personal por 1 hora",
     price: 50,
     location: "Gimnasio Central",
-    images: ["https://source.unsplash.com/400x300/?fitness"],
+    images: ["https://iili.io/FS4tN3B.jpg"],
     vendorId,
     publishedDate: now,
   },
@@ -118,8 +127,8 @@ const productos: Producto[] = [
     name: "Mouse Inalámbrico",
     description: "Mouse ergonómico con Bluetooth",
     price: 20,
-    images: ["https://source.unsplash.com/400x300/?wireless-mouse"],
-    category: "Electrónica",
+    images: ["https://iili.io/FS4t4GR.jpg"],
+    category: ProductCategory.ELECTRONICA,
     location: "Depósito A",
     vendorId,
     publishedDate: now,
@@ -129,8 +138,8 @@ const productos: Producto[] = [
     name: "Colchoneta de Yoga",
     description: "Colchoneta antideslizante",
     price: 25,
-    images: ["https://source.unsplash.com/400x300/?yoga-mat"],
-    category: "Fitness",
+    images: ["https://iili.io/FS4t64p.jpg"],
+    category: ProductCategory.OTROS,
     location: "Depósito B",
     vendorId,
     publishedDate: now,
@@ -140,8 +149,8 @@ const productos: Producto[] = [
     name: "Cuaderno",
     description: "Cuaderno con tapa dura y rayado",
     price: 10,
-    images: ["https://source.unsplash.com/400x300/?notebook"],
-    category: "Papelería",
+    images: ["https://iili.io/FS4tUZJ.jpg"],
+    category: ProductCategory.OTROS,
     location: "Tienda Centro",
     vendorId,
     publishedDate: now,
@@ -151,8 +160,8 @@ const productos: Producto[] = [
     name: "Lámpara LED",
     description: "Lámpara de escritorio ajustable",
     price: 35,
-    images: ["https://source.unsplash.com/400x300/?desk-lamp"],
-    category: "Oficina",
+    images: ["https://iili.io/FS4tj4V.jpg"],
+    category: ProductCategory.OTROS,
     location: "Depósito C",
     vendorId,
     publishedDate: now,
@@ -162,8 +171,8 @@ const productos: Producto[] = [
     name: "Botella Térmica",
     description: "Botella de acero inoxidable",
     price: 18,
-    images: ["https://source.unsplash.com/400x300/?water-bottle"],
-    category: "Camping",
+    images: ["https://iili.io/FS4trCv.jpg"],
+    category: ProductCategory.OTROS,
     location: "Tienda Centro",
     vendorId,
     publishedDate: now,
@@ -173,8 +182,8 @@ const productos: Producto[] = [
     name: "Parlante Bluetooth",
     description: "Parlante portátil con bajo potente",
     price: 45,
-    images: ["https://source.unsplash.com/400x300/?bluetooth-speaker"],
-    category: "Electrónica",
+    images: ["https://iili.io/FS4tVQj.jpg"],
+    category: ProductCategory.ELECTRONICA,
     location: "Depósito A",
     vendorId,
     publishedDate: now,
@@ -184,8 +193,8 @@ const productos: Producto[] = [
     name: "Taza de Café",
     description: "Taza de cerámica con tapa",
     price: 12,
-    images: ["https://source.unsplash.com/400x300/?coffee-mug"],
-    category: "Cocina",
+    images: ["https://iili.io/FS4t1pe.jpg"],
+    category: ProductCategory.OTROS,
     location: "Tienda Centro",
     vendorId,
     publishedDate: now,
@@ -196,6 +205,7 @@ const vendedores: Vendedor[] = [
   {
     id: vendorId,
     clerkUserId,
+    email: "fernando.soria@example.com",
     name: "Fernando",
     lastname: "Soria",
     sales: 100,

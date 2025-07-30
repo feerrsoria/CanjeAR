@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   images: { // <--- Agrega este bloque
     domains: [
-      'via.placeholder.com','source.unsplash.com' // <--- Añade este dominio a la lista
+      'via.placeholder.com','source.unsplash.com', 'iili.io' // <--- Añade este dominio a la lista
       // Si tienes otras fuentes de imágenes externas, agrégalas aquí también
       // 'otra-web-de-imagenes.com',
     ],

@@ -1,13 +1,16 @@
+-- CreateEnum
+CREATE TYPE "public"."ProductCategory" AS ENUM ('ELECTRONICA', 'COSAS_DEL_HOGAR', 'MODA', 'VEHICULOS', 'OTROS');
+
 -- CreateTable
 CREATE TABLE "public"."products" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
     "images" TEXT[],
-    "category" TEXT NOT NULL,
+    "category" "public"."ProductCategory" NOT NULL,
     "description" TEXT NOT NULL,
     "location" TEXT NOT NULL,
-    "publishedDate" TIMESTAMP(3) NOT NULL,
+    "publishedDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "vendorId" TEXT NOT NULL,
 
     CONSTRAINT "products_pkey" PRIMARY KEY ("id")
@@ -17,6 +20,8 @@ CREATE TABLE "public"."products" (
 CREATE TABLE "public"."vendors" (
     "id" TEXT NOT NULL,
     "clerkUserId" TEXT NOT NULL,
+    "profilePic" TEXT,
+    "email" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "lastname" TEXT NOT NULL,
     "sales" INTEGER NOT NULL DEFAULT 0,
@@ -35,7 +40,7 @@ CREATE TABLE "public"."services" (
     "description" TEXT NOT NULL,
     "images" TEXT[],
     "location" TEXT NOT NULL,
-    "publishedDate" TIMESTAMP(3) NOT NULL,
+    "publishedDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "vendorId" TEXT NOT NULL,
 
     CONSTRAINT "services_pkey" PRIMARY KEY ("id")
@@ -43,6 +48,9 @@ CREATE TABLE "public"."services" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "vendors_clerkUserId_key" ON "public"."vendors"("clerkUserId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "vendors_email_key" ON "public"."vendors"("email");
 
 -- AddForeignKey
 ALTER TABLE "public"."products" ADD CONSTRAINT "products_vendorId_fkey" FOREIGN KEY ("vendorId") REFERENCES "public"."vendors"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

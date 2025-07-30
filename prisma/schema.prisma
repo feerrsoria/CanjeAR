@@ -12,6 +12,15 @@ generator client {
 datasource db {
   provider = "postgresql" // Make sure this matches your database type
   url      = env("DATABASE_URL") // THIS MUST BE env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum ProductCategory {
+  ELECTRONICA
+  COSAS_DEL_HOGAR
+  MODA
+  VEHICULOS
+  OTROS
 }
 
 model Product {
@@ -19,10 +28,10 @@ model Product {
   name        String
   price       Float
   images       String[]
-  category    String
+  category    ProductCategory
   description String
   location    String
-  publishedDate  DateTime
+  publishedDate  DateTime @default(now())
   vendorId    String
   vendor      Vendor  @relation(fields: [vendorId], references: [id])
 
@@ -32,6 +41,8 @@ model Product {
 model Vendor {
   id          String @id @default(uuid())
   clerkUserId  String @unique           // Clerk user ID from auth
+  profilePic  String?                  // Can be null
+  email       String @unique
   name        String
   lastname    String
   sales       Int     @default(0)
@@ -51,7 +62,7 @@ model Service {
   description  String
   images      String[]
   location String
-  publishedDate  DateTime
+  publishedDate  DateTime @default(now())
   vendorId String
   vendor Vendor @relation(fields: [vendorId], references: [id])
 

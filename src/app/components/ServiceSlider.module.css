@@ -25,6 +25,16 @@
     margin-left: auto; /* Centra horizontalmente */
     margin-right: auto; /* Centra horizontalmente */
 }
+
+/* Style for loading, error, and empty messages */
+.sliderMessage {
+  text-align: center;
+  color: var(--text-muted, #7a7a7a);
+  font-size: 1.2rem;
+  padding: 2rem 0;
+  width: 100%;
+}
+
 /* Nuevo contenedor para envolver el cardsWrapper y los botones de navegación */
 .sliderContentWrapper {
   position: relative; /* Crucial para posicionar los botones de forma absoluta */

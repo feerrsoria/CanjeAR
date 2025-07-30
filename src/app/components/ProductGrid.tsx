@@ -1,22 +1,48 @@
 'use client';
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import ProductCard from './ProductCard';
 
 import styles from './ProductGrid.module.css';
 import { ProductWithVendor } from '../types/ProductWithVendor';
+import { useAuth } from '@clerk/nextjs';
 
-const PRODUCTS_PER_PAGE = 6; // Máximo de 4-6 productos por página. Ajusta si quieres 4 o 5.
+const PRODUCTS_PER_PAGE = 6;
 
 export default function ProductGrid() {
   const [currentPage, setCurrentPage] = useState(1);
   const [products, setProducts] = useState<ProductWithVendor[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { userId } = useAuth();
 
-  React.useEffect(() => {
-    fetch("/api/products")
-      .then((res) => res.json())
+  useEffect(() => {
+    if (!userId) {
+      setIsLoading(false);
+      setProducts([]);
+      return;
+    }
+
+    setIsLoading(true);
+    setError(null);
+
+    // The API route for user-specific products should be under /api, not a page route.
+    // Assuming the correct endpoint is /api/products based on the API code provided.
+    fetch(`/api/profile/products?clerkUserId=${userId}`)
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorData = await res.json().catch(() => ({ message: 'An unknown error occurred.' }));
+          throw new Error(errorData.message || `Error: ${res.status} ${res.statusText}`);
+        }
+        return res.json();
+      })
       .then(setProducts)
-      .catch(console.error);
-  }, []);
+      .catch((err) => {
+        console.error('Failed to fetch products:', err);
+        setError(err.message);
+      })
+      .finally(() => setIsLoading(false));
+  }, [userId]);
+
   // Calcula el número total de páginas
   const totalPages = useMemo(() => {
     return Math.ceil(products.length / PRODUCTS_PER_PAGE);
@@ -41,33 +67,54 @@ export default function ProductGrid() {
     }
   };
 
+  const renderContent = () => {
+    if (isLoading) {
+      return <p className={styles.gridMessage}>Cargando tus productos...</p>;
+    }
+
+    if (error) {
+      return <p className={styles.gridMessage}>Error al cargar los productos: {error}</p>;
+    }
+
+    if (products.length === 0) {
+      return <p className={styles.gridMessage}>Aún no has anunciado ningún producto.</p>;
+    }
+
+    return (
+      <>
+        <div className={styles.gridContainer}>
+          {currentProducts.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+
+        {totalPages > 1 && (
+          <div className={styles.pagination}>
+            <button
+              onClick={goToPrevPage}
+              disabled={currentPage === 1}
+              className={styles.paginationButton}
+            >
+              Anterior
+            </button>
+            <span className={styles.pageInfo}>Página {currentPage} de {totalPages}</span>
+            <button
+              onClick={goToNextPage}
+              disabled={currentPage === totalPages}
+              className={styles.paginationButton}
+            >
+              Siguiente
+            </button>
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
     <div className={styles.gridSection}>
-      <h2 className={styles.gridTitle}>Explorar Productos</h2>
-
-      <div className={styles.gridContainer}>
-        {currentProducts.map(product => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
-
-      <div className={styles.pagination}>
-        <button
-          onClick={goToPrevPage}
-          disabled={currentPage === 1}
-          className={styles.paginationButton}
-        >
-          Anterior
-        </button>
-        <span className={styles.pageInfo}>Página {currentPage} de {totalPages}</span>
-        <button
-          onClick={goToNextPage}
-          disabled={currentPage === totalPages}
-          className={styles.paginationButton}
-        >
-          Siguiente
-        </button>
-      </div>
+      <h2 className={styles.gridTitle}>Mis Productos</h2>
+      {renderContent()}
     </div>
   );
 }

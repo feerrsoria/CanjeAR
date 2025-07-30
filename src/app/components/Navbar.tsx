@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { AiFillProduct } from "react-icons/ai";
 import { FaServicestack } from "react-icons/fa";
+import { FaSignInAlt } from "react-icons/fa";
+import { FaSignOutAlt } from "react-icons/fa";
 import { FaShoppingCart, FaSearch } from "react-icons/fa";
 import { useTheme } from "next-themes";
 import styles from "./Navbar.module.css";
@@ -30,6 +32,7 @@ export default function Navbar() {
     const cartCount = cart.length;
     const router = useRouter();
 
+
     const handleMisServiciosClick = () => {
         router.push('/profile/servicios');
     };
@@ -53,10 +56,12 @@ export default function Navbar() {
                     {/* profile - replaced with Clerk UserButton */}
                     <div className={styles.iconBtn} title="profile">
                         <SignedOut>
-                            <SignInButton />
+                            <SignInButton>
+                                <button><FaSignInAlt /></button>
+                            </SignInButton>
                             <SignUpButton>
-                                <button className="bg-[#6c47ff] text-ceramic-white rounded-full font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 cursor-pointer">
-                                    Sign Up
+                                <button>
+                                    <FaSignOutAlt />
                                 </button>
                             </SignUpButton>
                         </SignedOut>
