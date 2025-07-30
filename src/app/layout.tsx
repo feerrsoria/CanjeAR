@@ -5,6 +5,9 @@ import type { Metadata } from "next";
 
 import { ThemeProvider } from "./components/ThemeContext";
 import { CartProvider } from "./components/CartContext";
+import { ClerkProvider } from '@clerk/nextjs';
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,20 +33,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html>
+    <html lang="es" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${merriweather.variable} antialiased`}
         style={{ fontFamily: 'var(--font-inter), sans-serif' }}
-      >   <CartProvider>
-          <ThemeProvider attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange>
-
-            {children}
-
-          </ThemeProvider>
-        </CartProvider>
+        suppressHydrationWarning={true}
+      >
+        <ClerkProvider>
+          <CartProvider>
+            <ThemeProvider attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange>
+              <Navbar />
+              {children}
+              <Footer />
+            </ThemeProvider>
+          </CartProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

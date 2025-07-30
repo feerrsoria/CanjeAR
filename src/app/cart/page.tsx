@@ -1,21 +1,18 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import ProductCard, { Product } from "../components/ProductCard";
+import ProductCard from "../components/ProductCard";
 import styles from "../page.module.css";
-
-// Demo: cart state in localStorage or context would be used in a real app
-const demoCart: Product[] = [];
+import { useCart } from "../components/CartContext";
+import { FaTrash } from "react-icons/fa";
 
 export default function CartPage() {
-  const [cart, setCart] = useState<Product[]>(demoCart);
-
+  const { cart, removeFromCart } = useCart();
   const total = cart.reduce((sum, p) => sum + p.price, 0);
 
   return (
     <div>
-      <Navbar />
       <main className={styles.main}>
         <section className={styles.productsSection}>
           <h1 className={styles.productsTitle}>Carrito de compras</h1>
@@ -24,8 +21,35 @@ export default function CartPage() {
           ) : (
             <>
               <div className={styles.productsGridHome}>
-                {cart.map((product) => (
-                  <ProductCard key={product.id} product={product} />
+                {cart.map((product, idx) => (
+                  <div key={product.id + '-' + idx} style={{ position: 'relative' }}>
+                    <ProductCard product={product} />
+                    <button
+                      onClick={() => removeFromCart(product.id)}
+                      style={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                        background: 'var(--primary)',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '50%',
+                        width: 32,
+                        height: 32,
+                        cursor: 'pointer',
+                        fontWeight: 'bold',
+                        fontSize: '1.1rem',
+                        zIndex: 2,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        boxShadow: '0 2px 8px rgba(184,74,27,0.12)'
+                      }}
+                      title="Quitar del carrito"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
                 ))}
               </div>
               <div className={styles.cartTotal}>
@@ -38,7 +62,6 @@ export default function CartPage() {
           )}
         </section>
       </main>
-      <Footer />
     </div>
   );
 }

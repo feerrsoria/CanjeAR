@@ -1,0 +1,94 @@
+/* components/ProductGrid/ProductGrid.module.css */
+
+.gridSection {
+  padding: 3rem 1.5rem;
+  background-color: var(--background-light, #fcfcfc);
+  text-align: center;
+}
+
+.gridTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color, #3a2c1a);
+  margin-bottom: 2.5rem;
+}
+
+.gridContainer {
+  display: grid;
+  /* Define un mínimo de 280px por columna y auto-ajusta para llenar el espacio */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+  gap: 2rem; /* Espacio entre las tarjetas de la cuadrícula */
+  justify-items: center; /* Centra las tarjetas horizontalmente */
+  max-width: 1200px; /* Limita el ancho de la cuadrícula */
+  margin: 0 auto; /* Centra la cuadrícula en la página */
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+
+.paginationButton {
+  background: var(--primary, #e0ae71);
+  color: var(--button-text-color, #fff);
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+.paginationButton:hover:not(:disabled) {
+  background: var(--primary-dark, #c99a61);
+  transform: translateY(-2px);
+}
+
+.paginationButton:disabled {
+  background: var(--border-color, #ccc); /* Color para botón deshabilitado */
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.pageInfo {
+  font-size: 1.1rem;
+  color: var(--text-color, #3a2c1a);
+  font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .gridTitle {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  .gridContainer {
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Ajusta el min-width */
+  }
+  .pagination {
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+  .paginationButton {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  .pageInfo {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .gridSection {
+    padding: 2rem 1rem;
+  }
+  .gridContainer {
+    gap: 1rem;
+    grid-template-columns: 1fr; /* Una columna en pantallas muy pequeñas */
+  }
+}

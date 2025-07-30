@@ -85,19 +85,29 @@
 }
 
 /* Productos button */
-.productosBtn {
+.navLink {
   background: var(--accent);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   text-decoration: none;
   transition: background 0.3s;
   display: inline-block;
+  text-decoration: none;
 }
-.productosBtn:hover {
+.navLink:hover {
   background: var(--accent-hover);
 }
-.productosBtnText {
+.navLinkText {
   font-weight: 600;
+}
+.navLinks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 /* Responsive tweaks */
@@ -110,7 +120,7 @@
     max-width: 300px;
   }
 
-  .productosBtn {
+  .navLink {
     margin-left: auto;
   }
 }

@@ -1,0 +1,148 @@
+/* components/ServiceSlider/ServiceSlider.module.css */
+
+.sliderContainer {
+  width: 100%;
+  padding: 2rem 0; /* Espacio vertical para el slider */
+  overflow: hidden; 
+  background-color: var(--background-light, #fcfcfc); 
+  border-top: 1px solid var(--border-color, #e0e0e0); 
+  border-bottom: 1px solid var(--border-color, #e0e0e0); 
+}
+
+.sliderTitle {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-color, #3a2c1a);
+  margin-bottom: 2rem;
+}
+.sliderSubtitle {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--text-muted, #7a7a7a);
+    margin-bottom: 1.5rem;
+    max-width: 800px; /* Limita el ancho del subtítulo */
+    margin-left: auto; /* Centra horizontalmente */
+    margin-right: auto; /* Centra horizontalmente */
+}
+/* Nuevo contenedor para envolver el cardsWrapper y los botones de navegación */
+.sliderContentWrapper {
+  position: relative; /* Crucial para posicionar los botones de forma absoluta */
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Centra el contenido horizontalmente */ 
+  /* Añade padding a los lados para que los botones no cubran las tarjetas */
+  padding: 0 50px; /* Ajusta según el tamaño de tus botones */
+  box-sizing: border-box; /* Asegura que el padding se incluya en el ancho total */
+}
+
+.cardsWrapper {
+  display: flex;
+  overflow-x: auto; /* Permite el scroll horizontal */
+  padding: 1rem 0; /* Padding interno para las tarjetas */
+  scroll-snap-type: x mandatory; /* Hace que el scroll se detenga en cada tarjeta */
+  -webkit-overflow-scrolling: touch; /* Mejora el scroll en iOS */
+  scrollbar-width: none; /* Oculta la barra de scroll de Firefox */
+  gap: 1.5rem; /* Espacio entre las tarjetas */
+}
+
+/* Oculta la barra de scroll para Webkit (Chrome, Safari) */
+.cardsWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* Opcional: añade un poco de espacio al inicio y al final del slider dentro del wrapper */
+/* Esto puede ser redundante o no necesario si ya tienes padding en .sliderContentWrapper */
+/* .cardsWrapper::before,
+.cardsWrapper::after {
+  content: '';
+  flex-shrink: 0;
+  width: 2rem; 
+} */
+
+/* Asegura que cada tarjeta sea un punto de "snap" */
+.cardsWrapper > div { /* Apunta a AnnouncedServiceCard */
+  scroll-snap-align: start; /* Alinea el inicio de la tarjeta con el inicio del área de scroll visible */
+  flex-shrink: 0; /* Impide que las tarjetas se achiquen en el slider */
+}
+
+/* Estilos para los botones de navegación */
+.navButton {
+  position: absolute; /* Posicionamiento absoluto dentro de .sliderContentWrapper */
+  top: 50%; /* Centra verticalmente */
+  transform: translateY(-50%); /* Ajuste fino para el centrado vertical */
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
+  border: 1px solid var(--border-color, #e0e0e0);
+  border-radius: 50%; /* Forma redonda */
+  width: 45px; /* Tamaño del botón */
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6rem; /* Tamaño del ícono de flecha */
+  font-weight: bold;
+  color: var(--text-color, #3a2c1a);
+  cursor: pointer;
+  z-index: 10; /* Asegura que estén por encima de las tarjetas */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+}
+
+.navButton:hover {
+  background-color: rgba(255, 255, 255, 1);
+  transform: translateY(-50%) scale(1.05); /* Ligeramente más grande al pasar el ratón */
+}
+
+.navButton:active {
+  transform: translateY(-50%) scale(0.95); /* Ligeramente más pequeño al clickear */
+}
+
+.navButtonLeft {
+  left: 5px; /* Distancia desde el borde izquierdo del sliderContentWrapper */
+}
+
+.navButtonRight {
+  right: 5px; /* Distancia desde el borde derecho del sliderContentWrapper */
+}
+
+/* Variables de color (para usar si no están definidas globalmente) */
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sliderTitle {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  .sliderContentWrapper {
+    padding: 0 10px; /* Reduce el padding para dar más espacio a las tarjetas en móvil */
+  }
+  .navButton {
+    width: 35px;
+    height: 35px;
+    font-size: 1.4rem;
+    /* Considera ocultarlos si el espacio es muy limitado y el swipe es preferible */
+    /* display: none; */
+  }
+  .cardsWrapper {
+    padding: 0.5rem 0;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .sliderTitle {
+    font-size: 1.5rem;
+  }
+  .navButton {
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+  }
+  .cardsWrapper {
+    gap: 0.8rem;
+  }
+  .cardsWrapper > div {
+    min-width: 260px; /* Asegura que la tarjeta no sea demasiado pequeña en móviles */
+  }
+}

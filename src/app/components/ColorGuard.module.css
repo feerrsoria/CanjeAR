@@ -1,0 +1,31 @@
+.guardContainer {
+  display: flex; /* Para que los bloques de color se coloquen horizontalmente */
+  width: 100%; /* Ocupa todo el ancho disponible */
+  height: 60px; /* Altura de la guarda. Puedes ajustarla. */
+  overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente */
+  border-radius: 8px; /* Opcional: esquinas ligeramente redondeadas */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Sutil sombra para darle relieve */
+  margin: 4rem 0; /* Espacio arriba y abajo para separarla de otras secciones */
+  align-items: stretch; /* Asegura que los bloques de color llenen la altura */
+}
+
+.colorBlock {
+  flex-grow: 1; /* Cada bloque de color tomará el mismo ancho */
+  height: 100%; /* Ocupa toda la altura del contenedor */
+}
+
+/* Ajustes responsivos para pantallas más pequeñas */
+@media (max-width: 768px) {
+  .guardContainer {
+    height: 40px; /* Reduce la altura en móviles */
+    margin: 2.5rem 0; /* Menos margen en móviles */
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .guardContainer {
+    height: 30px; /* Aún más pequeña en pantallas muy chicas */
+    margin: 2rem 0;
+  }
+}
